@@ -2,7 +2,6 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <!-- Принудительно заставляем Internet Explorer использовать самый новый движок рендеринга -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Управленческие 36,6</title>
@@ -12,9 +11,21 @@
             background-color: #f4f6f9;
             margin: 0;
             padding: 20px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+               -moz-box-pack: center;
+               -ms-flex-pack: center;
+                   justify-content: center;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+               -moz-box-align: center;
+               -ms-flex-align: center;
+                   align-items: center;
             min-height: 100vh;
         }
         .card {
@@ -24,7 +35,9 @@
             max-width: 600px;
             width: 100%;
             padding: 30px;
-            box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+               -moz-box-sizing: border-box;
+                    box-sizing: border-box;
         }
         h1 {
             text-align: center;
@@ -33,11 +46,7 @@
             margin-top: 0;
             margin-bottom: 25px;
         }
-        /* Градиент адаптирован под Internet Explorer */
         .thermometer-container {
-            background: #ff4d4d; /* Запасной цвет для совсем старых версий */
-            background: -ms-linear-gradient(left, #ff4d4d 0%, #ffa500 35%, #e6c300 70%, #2ecc71 100%); /* Специально для IE10 */
-            background: linear-gradient(to right, #ff4d4d 0%, #ffa500 35%, #e6c300 70%, #2ecc71 100%); /* Современный стандарт */
             border-radius: 10px;
             height: 20px;
             width: 100%;
@@ -45,13 +54,29 @@
             overflow: hidden;
             margin-bottom: 15px;
             border: 1px solid #e0e0e0;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex; 
         }
+        .block-red { background-color: #ff4d4d; width: 35%; height: 100%; }
+        .block-orange { background-color: #ffa500; width: 20%; height: 100%; }
+        .block-yellow { background-color: #e6c300; width: 20%; height: 100%; }
+        .block-green { background-color: #2ecc71; width: 25%; height: 100%; }
+
         .thermometer-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
             height: 100%;
-            width: 0%;
+            width: 0%; 
             background-color: #eef2f5;
+            -webkit-transition: width 0.5s ease;
+            -moz-transition: width 0.5s ease;
+            -o-transition: width 0.5s ease;
             transition: width 0.5s ease;
-            float: left;
+            border-right: 1px solid #b0b0b0;
         }
         .status-text {
             text-align: center;
@@ -59,7 +84,6 @@
             font-size: 16px;
             margin-bottom: 25px;
             color: #ff4d4d;
-            transition: color 0.3s;
         }
         .dialog-box {
             background-color: #f0f4f8;
@@ -79,8 +103,18 @@
             font-size: 15px;
         }
         .options-container {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
             display: flex;
-            flex-direction: column;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+               -moz-box-orient: vertical;
+               -moz-box-direction: normal;
+               -ms-flex-direction: column;
+                   flex-direction: column;
             gap: 12px;
         }
         .option-btn {
@@ -91,11 +125,16 @@
             text-align: left;
             font-size: 15px;
             cursor: pointer;
+            -webkit-transition: all 0.2s ease;
+            -moz-transition: all 0.2s ease;
+            -o-transition: all 0.2s ease;
             transition: all 0.2s ease;
             color: #333;
             line-height: 1.4;
-            width: 100%; /* Четко фиксируем ширину для старых браузеров */
-            box-sizing: border-box;
+            width: 100%;
+            -webkit-box-sizing: border-box;
+               -moz-box-sizing: border-box;
+                    box-sizing: border-box;
         }
         .option-btn:hover {
             background-color: #f8fafc;
@@ -130,7 +169,6 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.2s;
         }
         .next-btn:hover {
             background-color: #27ae60;
@@ -143,6 +181,10 @@
     <h1>Управленческие 36,6</h1>
     
     <div class="thermometer-container">
+        <div class="block-red"></div>
+        <div class="block-orange"></div>
+        <div class="block-yellow"></div>
+        <div class="block-green"></div>
         <div id="bar" class="thermometer-bar"></div>
     </div>
     <div id="status" class="status-text">Лихорадка контроля: 40°C</div>
@@ -158,18 +200,15 @@
 </div>
 
 <script>
-
-
-    // Полифил для старых версий Firefox и IE, чтобы они понимали метод перебора элементов
     if (window.NodeList && !NodeList.prototype.forEach) {
         NodeList.prototype.forEach = Array.prototype.forEach;
     }
 
-        var stages = [
+    var stages = [
         {
             status: "Лихорадка контроля: 40°C",
             color: "#ff4d4d",
-            barWidth: "0%", // Заглушка убрана — горит критический красный цвет слева
+            barWidth: "0%",
             author: "Максим",
             text: "Управленческий градусник застрял на отметке 40°C, а команда дергает по каждому чиху. В лонгридах пишут: «делегируй и доверяй». На практике с новичками этот подход не работает: возникают ошибки, и работа встает. Расскажу первый лайфхак под названием «Индекс тишины»: выберите действие для снижения контроля при сохранении безопасности.",
             options: [
@@ -193,7 +232,7 @@
         {
             status: "Скрытая поддержка: 38°C",
             color: "#ffa500",
-            barWidth: "45%", // Заглушка наплыла слева и закрыла красный цвет. Остались оранжевый, желтый и зеленый справа
+            barWidth: "35%",
             author: "Максим",
             text: "При росте команды до 38°C у руководителя появляется ложная иллюзия контроля. Контроль становится скрытым, ведь лидер боится отпустить вожжи. Для проверки автономии применяется «Тест на радиомолчание»: определите алгоритм этого метода.",
             options: [
@@ -210,14 +249,14 @@
                 { 
                     text: "Руководитель не предупреждает о форс-мажорах и уходит в полный офлайн на 2-3 дня среди рабочей недели.", 
                     isCorrect: true, 
-                    feedback: "В точку. Руководитель называет это управленческим экспериментом. Двухдневный отъезд на стратегическую сессию или мини-отпуск сопровождается выключением уведомлений. За 48 часов без контроля проект не встал, клиенты не ушли, а команда сама разрулила текущие сбои — показатели в норме." 
+                    feedback: "В точку. Руководитель называет это управленческим эксперментом. Двухдневный отъезд на стратегическую сессию или мини-отпуск сопровождается выключением уведомлений. За 48 часов без контроля проект не встал, клиенты не ушли, а команда сама разрулила текущие сбои — показатели в норме." 
                 }
             ]
         },
         {
             status: "Здоровая норма: 37°C",
             color: "#e6c300",
-            barWidth: "70%", // Заглушка продвинулась дальше, виден преимущественно зеленый сектор
+            barWidth: "55%",
             author: "Максим",
             text: "Финальный этап. Для выхода на чистые 36,6°C руководитель передает команде право принимать решения без согласования. Главный страх лидера — убытки из-за чужих ошибок. Для преодоления этого барьера применяется «Управленческое завещание»: определите цель инструмента.",
             options: [
@@ -236,17 +275,17 @@
         {
             status: "36,6°C — Здоровая автономия достигнута!",
             color: "#2ecc71",
-            barWidth: "78%", // На финальном экране виден только сочный чистый зеленый отрезок автономии справа
+            barWidth: "75%",
             author: "Максим",
             text: "Поздравляю. Кулуарные лайфхаки работают. Лихорадка контроля ушла, микроменеджмент остыл, а команда вышла на уровень безопасной автономии. Теперь свободное время принадлежит стратегии.",
             options: []
         }
     ];
-            var currentStageIndex = 0;
+        var currentStageIndex = 0;
 
-    // Безопасная функция перемешивания, которая не трогает исходный массив сцен
+    // Безопасное перемешивание вариантов ответов для старых браузеров
     function shuffleArray(array) {
-        var copy = array.slice(); // Создаем чистую изолированную копию
+        var copy = array.slice();
         var currentIndex = copy.length, temporaryValue, randomIndex;
         while (0 !== currentIndex) {
             randomIndex = Math.floor(Math.random() * currentIndex);
@@ -269,7 +308,21 @@
         statusText.style.color = stage.color;
         
         document.getElementById("author").innerText = stage.author;
-        document.getElementById("dialog-text").innerText = stage.text;
+        
+        // Поиск ПОСЛЕДНЕГО двоеточия в строке (справа налево), чтобы выделить только призыв
+        var rawText = stage.text;
+        var lastColonIndex = rawText.lastIndexOf(":");
+        
+        if (lastColonIndex !== -1) {
+            // Берем историю до финального двоеточия включительно
+            var baseText = rawText.substring(0, lastColonIndex + 1);
+            // Берем только призыв к действию после него и оборачиваем в тег жирности <b>
+            var actionText = "<b>" + rawText.substring(lastColonIndex + 1) + "</b>";
+            
+            document.getElementById("dialog-text").innerHTML = baseText + actionText;
+        } else {
+            document.getElementById("dialog-text").innerHTML = rawText;
+        }
         
         var optionsContainer = document.getElementById("options");
         optionsContainer.innerHTML = "";
@@ -290,7 +343,6 @@
             nextBtn.onclick = nextStage;
         }
 
-        // Перемешиваем только кнопки текущей сцены, структура вопросов теперь в безопасности
         var shuffledOptions = shuffleArray(stage.options);
 
         for (var index = 0; index < shuffledOptions.length; index++) {
