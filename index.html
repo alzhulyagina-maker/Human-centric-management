@@ -37,7 +37,7 @@
             align-items: flex-start;
         }
         
-        /* --- ВЕКТОРНЫЙ ТЕРМОМЕТР ДЛЯ КОМПЬЮТЕРОВ --- */
+        /* --- БОЛЬШОЙ ВЕКТОРНЫЙ ТЕРМОМЕТР ДЛЯ ПК --- */
         .thermometer-side {
             width: 100px;
             display: flex;
@@ -51,7 +51,7 @@
             height: 405px;
         }
 
-        /* --- СЕТКА ОПИСАНИЙ ДЛЯ КОМПЬЮТЕРОВ --- */
+        /* --- СЕТКА ОПИСАНИЙ ДЛЯ ПК --- */
         .content-side {
             display: flex;
             flex-direction: column;
@@ -73,8 +73,8 @@
             flex-shrink: 0;
         }
         
-        /* Мобильный индикатор по умолчанию скрыт на ПК */
-        .mobile-badge {
+        /* Мобильные звенья по умолчанию скрыты на ПК */
+        .mobile-part {
             display: none;
         }
         
@@ -103,59 +103,118 @@
         }
 
         /* ==========================================================================
-           📱 БЕЗУПРЕЧНЫЕ МОБИЛЬНЫЕ СТИЛИ (ДЛЯ СМАРТФОНОВ)
+           📱 ИДЕАЛЬНЫЙ МОБИЛЬНЫЙ ТЕРМОМЕТР (ПОЭТАЖНАЯ СБОРКА)
            ========================================================================== */
         @media (max-width: 650px) {
             body {
-                padding: 25px 15px;
+                padding: 25px 10px;
             }
             h1 {
                 font-size: 24px;
-                margin-bottom: 30px;
+                margin-bottom: 25px;
             }
             
-            /* На смартфонах прячем громоздкий неподвижный термометр */
+            /* Скрываем цельный ПК-градусник */
             .thermometer-side {
                 display: none;
             }
-            
             .content-side {
                 padding-top: 0;
             }
-            
-            /* Каждая строка становится независимой гибкой карточкой */
-            .row {
-                height: auto;
-                min-height: auto;
-                margin-bottom: 20px;
-                align-items: flex-start;
-            }
-            
-            /* Вместо улетающих засечек включаем стильные цветные маркеры слева */
             .tick {
                 display: none;
             }
-            .mobile-badge {
-                display: block;
-                width: 16px;
-                height: 16px;
-                border-radius: 4px;
-                border: 2px solid #000000;
-                flex-shrink: 0;
-                margin-top: 3px; /* Выравнивание по первой строчке заголовка */
+            
+            /* Каждая строка становится гибким контейнером */
+            .row {
+                height: auto;
+                margin-bottom: 0;
+                align-items: stretch; /* Растягивает цветное звено строго по высоте текста */
+                position: relative;
+                padding-left: 55px; /* Освобождаем место слева под сборный термометр */
             }
-            /* Раскрашиваем маркеры в цвет уровней */
-            .badge-40 { background-color: #ff0000; }
-            .badge-39 { background-color: #ff9900; }
-            .badge-38 { background-color: #ffcc00; }
-            .badge-37 { background-color: #ffff00; }
-            .badge-36 { background-color: #2ecc71; }
+            
+            /* Общие базовые стили для звеньев мобильного термометра */
+            .mobile-part {
+                display: block;
+                position: absolute;
+                left: 10px;
+                top: 0;
+                bottom: 0;
+                width: 34px; 
+                border-left: 3px solid #000000;
+                border-right: 3px solid #000000;
+                box-sizing: border-box;
+            }
+            
+            /* Звено 1: Красный верхушка-купол */
+            .part-40 {
+                background-color: #ff0000;
+                border-top: 3px solid #000000;
+                border-bottom: 3px solid #000000;
+                border-top-left-radius: 18px;
+                border-top-right-radius: 18px;
+                top: 5px; 
+            }
+            /* Звено 2: Оранжевая трубка */
+            .part-39 {
+                background-color: #ff9900;
+                border-bottom: 3px solid #000000;
+            }
+            /* Звено 3: Темно-желтая трубка */
+            .part-38 {
+                background-color: #ffcc00;
+                border-bottom: 3px solid #000000;
+            }
+            /* Звено 4: Светло-желтая трубка */
+            .part-37 {
+                background-color: #ffff00;
+                border-bottom: 3px solid #000000;
+            }
+            /* Звено 5: Зеленая трубка, плавно переходящая в круглую колбу */
+            .part-36 {
+                background-color: #2ecc71;
+                border-bottom: none;
+                overflow: visible;
+                bottom: 60px; 
+            }
+            /* Дорисовываем круглую колбочку к нижнему звену */
+            .part-36::after {
+                content: "";
+                position: absolute;
+                bottom: -62px;
+                left: -20px;
+                width: 68px;
+                height: 68px;
+                border: 3px solid #000000;
+                border-radius: 50%;
+                background-color: #2ecc71;
+                box-sizing: border-box;
+                z-index: 1;
+            }
+            /* Маскировочный мостик внутри шара, чтобы скрыть нижний срез трубки */
+            .part-36::before {
+                content: "";
+                position: absolute;
+                bottom: -3px;
+                left: 0;
+                width: 28px;
+                height: 10px;
+                background-color: #2ecc71;
+                z-index: 2;
+            }
 
             .text-block {
-                padding-left: 12px;
+                padding-left: 0;
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 6px;
+                gap: 4px;
+                padding-top: 8px;
+                padding-bottom: 15px; 
+            }
+            /* Последней строке добавляем дополнительный отступ снизу под шар */
+            .row:last-child .text-block {
+                padding-bottom: 75px;
             }
             .title {
                 width: 100%;
@@ -163,7 +222,7 @@
                 padding-right: 0;
             }
             .title br {
-                display: none; /* На мобильных пишем заголовок в одну аккуратную строку */
+                display: none;
             }
             .description {
                 width: 100%;
@@ -178,8 +237,8 @@
 <h1>Управленческие 36,6</h1>
 
 <div class="wrapper">
-    
-    <!-- Большой монолитный термометр (виден только на компьютерах) -->
+
+                    <!-- Большой монолитный термометр для компьютеров -->
     <div class="thermometer-side">
         <svg class="thermometer-svg" viewBox="0 0 96 405" xmlns="http://w3.org">
             <defs>
@@ -203,14 +262,14 @@
         </svg>
     </div>
 
-    <!-- Интерактивная текстовая сторона -->
+    <!-- Адаптивная текстовая сетка со встроенным мобильным термометром -->
     <div class="content-side">
         <!-- 40°C -->
         <div class="row">
             <div class="tick"></div>
-            <div class="mobile-badge badge-40"></div>
+            <div class="mobile-part part-40"></div>
             <div class="text-block">
-                <div class="title">40°C —<br>Микроменеджмент</div>
+                <div class="title">40°C — Микроменеджмент</div>
                 <div class="description">Сотрудник — новичок. Лидер стабилизирует процесс, проверяет каждый шаг и&nbsp;расходует много энергии. Режим реанимации.</div>
             </div>
         </div>
@@ -218,9 +277,9 @@
         <!-- 39°C -->
         <div class="row">
             <div class="tick"></div>
-            <div class="mobile-badge badge-39"></div>
+            <div class="mobile-part part-39"></div>
             <div class="text-block">
-                <div class="title">39°C —<br>Наставничество</div>
+                <div class="title">39°C — Наставничество</div>
                 <div class="description">Новичок адаптируется, но ошибается в процессах. Лидер снижает контроль и&nbsp;вместо прямых приказов объясняет логику задач.</div>
             </div>
         </div>
@@ -228,9 +287,9 @@
         <!-- 38°C -->
         <div class="row">
             <div class="tick"></div>
-            <div class="mobile-badge badge-38"></div>
+            <div class="mobile-part part-38"></div>
             <div class="text-block">
-                <div class="title">38°C —<br>Поддержка</div>
+                <div class="title">38°C — Поддержка</div>
                 <div class="description">Сотрудник самостоятельно решает задачи. Лидер боится отпустить контроль и&nbsp;тайком проверяет процессы. Вмешивается при сбоях.</div>
             </div>
         </div>
@@ -238,9 +297,9 @@
         <!-- 37°C -->
         <div class="row">
             <div class="tick"></div>
-            <div class="mobile-badge badge-37"></div>
+            <div class="mobile-part part-37"></div>
             <div class="text-block">
-                <div class="title">37°C —<br>Делегирование</div>
+                <div class="title">37°C — Делегирование</div>
                 <div class="description">Команда работает самостоятельно. Лидер по привычке сохраняет фоновый страх за безопасность и&nbsp;оставляет финальные согласования.</div>
             </div>
         </div>
@@ -248,9 +307,9 @@
         <!-- 36,6°C -->
         <div class="row">
             <div class="tick"></div>
-            <div class="mobile-badge badge-36"></div>
+            <div class="mobile-part part-36"></div>
             <div class="text-block">
-                <div class="title">36,6°C —<br>Автономия</div>
+                <div class="title">36,6°C — Автономия</div>
                 <div class="description">Высшая точка развития компетенций. Команда работает самостоятельно и&nbsp;отвечает за результат. Спокойный лидер формирует стратегию.</div>
             </div>
         </div>
