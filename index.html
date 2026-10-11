@@ -2,7 +2,6 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Управленческие 36,6</title>
     <style>
@@ -11,21 +10,9 @@
             background-color: #f4f6f9;
             margin: 0;
             padding: 20px;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -moz-box;
-            display: -ms-flexbox;
             display: flex;
-            -webkit-box-pack: center;
-            -webkit-justify-content: center;
-               -moz-box-pack: center;
-               -ms-flex-pack: center;
-                   justify-content: center;
-            -webkit-box-align: center;
-            -webkit-align-items: center;
-               -moz-box-align: center;
-               -ms-flex-align: center;
-                   align-items: center;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
         }
         .card {
@@ -35,9 +22,7 @@
             max-width: 600px;
             width: 100%;
             padding: 30px;
-            -webkit-box-sizing: border-box;
-               -moz-box-sizing: border-box;
-                    box-sizing: border-box;
+            box-sizing: border-box;
         }
         h1 {
             text-align: center;
@@ -47,6 +32,7 @@
             margin-bottom: 25px;
         }
         .thermometer-container {
+            background: #eef2f5;
             border-radius: 10px;
             height: 20px;
             width: 100%;
@@ -54,29 +40,13 @@
             overflow: hidden;
             margin-bottom: 15px;
             border: 1px solid #e0e0e0;
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -moz-box;
-            display: -ms-flexbox;
-            display: flex; 
         }
-        .block-red { background-color: #ff4d4d; width: 35%; height: 100%; }
-        .block-orange { background-color: #ffa500; width: 20%; height: 100%; }
-        .block-yellow { background-color: #e6c300; width: 20%; height: 100%; }
-        .block-green { background-color: #2ecc71; width: 25%; height: 100%; }
-
         .thermometer-bar {
-            position: absolute;
-            top: 0;
-            left: 0;
             height: 100%;
-            width: 0%; 
-            background-color: #eef2f5;
-            -webkit-transition: width 0.5s ease;
-            -moz-transition: width 0.5s ease;
-            -o-transition: width 0.5s ease;
+            width: 100%;
+            background: linear-gradient(to left, #ff4d4d, #ffa500, #2ecc71);
             transition: width 0.5s ease;
-            border-right: 1px solid #b0b0b0;
+            float: right;
         }
         .status-text {
             text-align: center;
@@ -84,6 +54,7 @@
             font-size: 16px;
             margin-bottom: 25px;
             color: #ff4d4d;
+            transition: color 0.3s;
         }
         .dialog-box {
             background-color: #f0f4f8;
@@ -91,11 +62,7 @@
             padding: 20px;
             border-radius: 4px;
             margin-bottom: 25px;
-        position: relative;
-            }
-        .dialog-box::before { content: "“"; position: absolute; top: -15px; right: 15px; font-size: 130px; color: rgba(0, 86, 179, 0.08); font-family: Georgia, serif; line-height: 1; pointer-events: none; }
-
-
+        }
         .author {
             font-weight: bold;
             color: #0056b3;
@@ -107,18 +74,8 @@
             font-size: 15px;
         }
         .options-container {
-            display: -webkit-box;
-            display: -webkit-flex;
-            display: -moz-box;
-            display: -ms-flexbox;
             display: flex;
-            -webkit-box-orient: vertical;
-            -webkit-box-direction: normal;
-            -webkit-flex-direction: column;
-               -moz-box-orient: vertical;
-               -moz-box-direction: normal;
-               -ms-flex-direction: column;
-                   flex-direction: column;
+            flex-direction: column;
             gap: 12px;
         }
         .option-btn {
@@ -129,16 +86,9 @@
             text-align: left;
             font-size: 15px;
             cursor: pointer;
-            -webkit-transition: all 0.2s ease;
-            -moz-transition: all 0.2s ease;
-            -o-transition: all 0.2s ease;
             transition: all 0.2s ease;
             color: #333;
             line-height: 1.4;
-            width: 100%;
-            -webkit-box-sizing: border-box;
-               -moz-box-sizing: border-box;
-                    box-sizing: border-box;
         }
         .option-btn:hover {
             background-color: #f8fafc;
@@ -173,6 +123,7 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            transition: background 0.2s;
         }
         .next-btn:hover {
             background-color: #27ae60;
@@ -185,10 +136,6 @@
     <h1>Управленческие 36,6</h1>
     
     <div class="thermometer-container">
-        <div class="block-red"></div>
-        <div class="block-orange"></div>
-        <div class="block-yellow"></div>
-        <div class="block-green"></div>
         <div id="bar" class="thermometer-bar"></div>
     </div>
     <div id="status" class="status-text">Лихорадка контроля: 40°C</div>
@@ -204,15 +151,11 @@
 </div>
 
 <script>
-    if (window.NodeList && !NodeList.prototype.forEach) {
-        NodeList.prototype.forEach = Array.prototype.forEach;
-    }
-
-    var stages = [
+    const stages = [
         {
             status: "Лихорадка контроля: 40°C",
             color: "#ff4d4d",
-            barWidth: "0%",
+            barWidth: "100%",
             author: "Максим",
             text: "Управленческий градусник застрял на отметке 40°C, а команда дергает по каждому чиху. В лонгридах пишут: «делегируй и доверяй». На практике с новичками этот подход не работает: возникают ошибки, и работа встает. Расскажу первый лайфхак под названием «Индекс тишины»: выберите действие для снижения контроля при сохранении безопасности.",
             options: [
@@ -236,9 +179,9 @@
         {
             status: "Скрытая поддержка: 38°C",
             color: "#ffa500",
-            barWidth: "35%",
+            barWidth: "50%",
             author: "Максим",
-            text: "При росте команды до 38°C у руководителя появляется ложная иллюзия контроля. Контроль становится скрытым, ведь лидер боится отпустить вожжи. Для проверки автономии применяется «Тест на радиомолчание»: определите алгоритм этого метода.",
+            text: "При росте команды до 38°C у руководителя появляется ложная иллюзия контроля. Контроль становится скрытым, ведь leader боится отпустить вожжи. Для проверки автономии применяется «Тест на радиомолчание»: определите алгоритм этого метода.",
             options: [
                 { 
                     text: "Руководитель перестает сам писать в чат и ждет, пока сотрудники первые проявят инициативу.", 
@@ -253,24 +196,24 @@
                 { 
                     text: "Руководитель не предупреждает о форс-мажорах и уходит в полный офлайн на 2-3 дня среди рабочей недели.", 
                     isCorrect: true, 
-                    feedback: "В точку. Руководитель называет это управленческим эксперментом. Двухдневный отъезд на стратегическую сессию или мини-отпуск сопровождается выключением уведомлений. За 48 часов без контроля проект не встал, клиенты не ушли, а команда сама разрулила текущие сбои — показатели в норме." 
+                    feedback: "В точку. Руководитель называет это управленческим экспериментом. Двухдневный отъезд на стратегическую сессию или мини-отпуск сопровождается выключением уведомлений. За 48 часов без контроля проект не встал, клиенты не ушли, а команда сама разрулила текущие сбои — показатели в норме." 
                 }
             ]
         },
         {
-            status: "Здоровая норма: 37°C",
-            color: "#e6c300",
-            barWidth: "55%",
+            status: "Здоровая норма: 36,6°C",
+            color: "#2ecc71",
+            barWidth: "15%",
             author: "Максим",
             text: "Финальный этап. Для выхода на чистые 36,6°C руководитель передает команде право принимать решения без согласования. Главный страх лидера — убытки из-за чужих ошибок. Для преодоления этого барьера применяется «Управленческое завещание»: определите цель инструмента.",
             options: [
                 { 
-                    text: "Регламент фиксирует формальные обязанности и штрафы для жесткого контроля действий сотрудников.", 
+                    text: "Инструкция, какими обязанностями и ответственностью обладает сотрудник для жесткого контроля действий сотрудника.", 
                     isCorrect: false, 
                     feedback: "Должностные инструкции вызывают скуку и провоцируют бюрократию при сбоях. Бумажные правила не учат самостоятельности: найдите гибкий управленческий инструмент." 
                 },
                 { 
-                    text: "Документ закрепляет финансовые границы и риски для самостоятельного принятия решений командой.", 
+                    text: "Инструкция, в каких границах и на какие суммы команда принимает решения без согласования с руководителем.", 
                     isCorrect: true, 
                     feedback: "Верно, матрица рисков и цена ошибки — основа этого инструмента. При стоимости ошибки до 100 000 рублей команда принимает решения самостоятельно. Руководитель подключается только при стратегических рисках или угрозе репутации. Четкие границы автономности мотивируют сотрудников и освобождают личное время для формирования стратегии." 
                 }
@@ -279,62 +222,34 @@
         {
             status: "36,6°C — Здоровая автономия достигнута!",
             color: "#2ecc71",
-            barWidth: "75%",
+            barWidth: "0%",
             author: "Максим",
             text: "Поздравляю. Кулуарные лайфхаки работают. Лихорадка контроля ушла, микроменеджмент остыл, а команда вышла на уровень безопасной автономии. Теперь свободное время принадлежит стратегии.",
             options: []
         }
     ];
-        var currentStageIndex = 0;
-
-    // Безопасное перемешивание вариантов ответов для старых браузеров
-    function shuffleArray(array) {
-        var copy = array.slice();
-        var currentIndex = copy.length, temporaryValue, randomIndex;
-        while (0 !== currentIndex) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-            temporaryValue = copy[currentIndex];
-            copy[currentIndex] = copy[randomIndex];
-            copy[randomIndex] = temporaryValue;
-        }
-        return copy;
-    }
+    let currentStageIndex = 0;
 
     function renderStage() {
-        var stage = stages[currentStageIndex];
+        const stage = stages[currentStageIndex];
         
-        var bar = document.getElementById("bar");
+        const bar = document.getElementById("bar");
         bar.style.width = stage.barWidth;
         
-        var statusText = document.getElementById("status");
+        const statusText = document.getElementById("status");
         statusText.innerText = stage.status;
         statusText.style.color = stage.color;
         
         document.getElementById("author").innerText = stage.author;
+        document.getElementById("dialog-text").innerText = stage.text;
         
-        // Поиск ПОСЛЕДНЕГО двоеточия в строке (справа налево), чтобы выделить только призыв
-        var rawText = stage.text;
-        var lastColonIndex = rawText.lastIndexOf(":");
-        
-        if (lastColonIndex !== -1) {
-            // Берем историю до финального двоеточия включительно
-            var baseText = rawText.substring(0, lastColonIndex + 1);
-            // Берем только призыв к действию после него и оборачиваем в тег жирности <b>
-            var actionText = "<b>" + rawText.substring(lastColonIndex + 1) + "</b>";
-            
-            document.getElementById("dialog-text").innerHTML = baseText + actionText;
-        } else {
-            document.getElementById("dialog-text").innerHTML = rawText;
-        }
-        
-        var optionsContainer = document.getElementById("options");
+        const optionsContainer = document.getElementById("options");
         optionsContainer.innerHTML = "";
         
-        var feedbackBox = document.getElementById("feedback-box");
+        const feedbackBox = document.getElementById("feedback-box");
         feedbackBox.style.display = "none";
         
-        var nextBtn = document.getElementById("next-button");
+        const nextBtn = document.getElementById("next-button");
         nextBtn.style.display = "none";
 
         if (stage.options.length === 0) {
@@ -347,22 +262,20 @@
             nextBtn.onclick = nextStage;
         }
 
-        var shuffledOptions = shuffleArray(stage.options);
-
-        for (var index = 0; index < shuffledOptions.length; index++) {
-            (function(idx) {
-                var option = shuffledOptions[idx];
-                var button = document.createElement("button");
-                button.className = "option-btn";
-                button.innerText = option.text;
-                button.onclick = function() { checkAnswer(option); };
-                optionsContainer.appendChild(button);
-            })(index);
-        }
+        stage.options.forEach((option, index) => {
+            const button = document.createElement("button");
+            button.className = "option-btn";
+            button.innerText = option.text;
+            button.onclick = () => checkAnswer(index);
+            optionsContainer.appendChild(button);
+        });
     }
 
-    function checkAnswer(option) {
-        var feedbackBox = document.getElementById("feedback-box");
+    function checkAnswer(optionIndex) {
+        const stage = stages[currentStageIndex];
+        const option = stage.options[optionIndex];
+        const feedbackBox = document.getElementById("feedback-box");
+        
         feedbackBox.style.display = "block";
         
         if (option.isCorrect) {
@@ -370,10 +283,8 @@
             feedbackBox.innerText = option.feedback;
             document.getElementById("next-button").style.display = "block";
             
-            var buttons = document.getElementsByClassName("option-btn");
-            for (var i = 0; i < buttons.length; i++) {
-                buttons[i].disabled = true;
-            }
+            const buttons = document.querySelectorAll(".option-btn");
+            buttons.forEach(btn => btn.disabled = true);
         } else {
             feedbackBox.className = "feedback error";
             feedbackBox.innerText = option.feedback;
