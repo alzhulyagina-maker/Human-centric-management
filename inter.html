@@ -1,0 +1,399 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Управленческие 36,6</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+            -webkit-justify-content: center;
+               -moz-box-pack: center;
+               -ms-flex-pack: center;
+                   justify-content: center;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+               -moz-box-align: center;
+               -ms-flex-align: center;
+                   align-items: center;
+            min-height: 100vh;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            max-width: 600px;
+            width: 100%;
+            padding: 30px;
+            -webkit-box-sizing: border-box;
+               -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #1a1a1a;
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+        .thermometer-container {
+            border-radius: 10px;
+            height: 20px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex; 
+        }
+        .block-red { background-color: #ff4d4d; width: 35%; height: 100%; }
+        .block-orange { background-color: #ffa500; width: 20%; height: 100%; }
+        .block-yellow { background-color: #e6c300; width: 20%; height: 100%; }
+        .block-green { background-color: #2ecc71; width: 25%; height: 100%; }
+
+        .thermometer-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%; 
+            background-color: #eef2f5;
+            -webkit-transition: width 0.5s ease;
+            -moz-transition: width 0.5s ease;
+            -o-transition: width 0.5s ease;
+            transition: width 0.5s ease;
+            border-right: 1px solid #b0b0b0;
+        }
+        .status-text {
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 25px;
+            color: #ff4d4d;
+        }
+        .dialog-box {
+            background-color: #f0f4f8;
+            border-left: 4px solid #0056b3;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+        position: relative;
+            }
+        .dialog-box::before { content: "“"; position: absolute; top: -15px; right: 15px; font-size: 130px; color: rgba(0, 86, 179, 0.08); font-family: Georgia, serif; line-height: 1; pointer-events: none; }
+
+
+        .author {
+            font-weight: bold;
+            color: #0056b3;
+            margin-bottom: 8px;
+        }
+        .text {
+            color: #333;
+            line-height: 1.5;
+            font-size: 15px;
+        }
+        .options-container {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+               -moz-box-orient: vertical;
+               -moz-box-direction: normal;
+               -ms-flex-direction: column;
+                   flex-direction: column;
+            gap: 12px;
+        }
+        .option-btn {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px 20px;
+            text-align: left;
+            font-size: 15px;
+            cursor: pointer;
+            -webkit-transition: all 0.2s ease;
+            -moz-transition: all 0.2s ease;
+            -o-transition: all 0.2s ease;
+            transition: all 0.2s ease;
+            color: #333;
+            line-height: 1.4;
+            width: 100%;
+            -webkit-box-sizing: border-box;
+               -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+        }
+        .option-btn:hover {
+            background-color: #f8fafc;
+            border-color: #b0b0b0;
+        }
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.4;
+            display: none;
+        }
+        .feedback.error {
+            background-color: #ffe6e6;
+            color: #cc0000;
+            border: 1px solid #ffa6a6;
+        }
+        .feedback.success {
+            background-color: #e6ffe6;
+            color: #008000;
+            border: 1px solid #a6ffa6;
+        }
+        .next-btn {
+            display: none;
+            margin: 20px auto 0 auto;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .next-btn:hover {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Управленческие 36,6</h1>
+    
+    <div class="thermometer-container">
+        <div class="block-red"></div>
+        <div class="block-orange"></div>
+        <div class="block-yellow"></div>
+        <div class="block-green"></div>
+        <div id="bar" class="thermometer-bar"></div>
+    </div>
+    <div id="status" class="status-text">Лихорадка контроля: 40°C</div>
+
+    <div class="dialog-box">
+        <div id="author" class="author">Максим</div>
+        <div id="dialog-text" class="text">Загрузка...</div>
+    </div>
+
+    <div id="options" class="options-container"></div>
+    <div id="feedback-box" class="feedback"></div>
+    <button id="next-button" class="next-btn" onclick="nextStage()">Идем дальше</button>
+</div>
+
+<script>
+    if (window.NodeList && !NodeList.prototype.forEach) {
+        NodeList.prototype.forEach = Array.prototype.forEach;
+    }
+
+    var stages = [
+        {
+            status: "Лихорадка контроля: 40°C",
+            color: "#ff4d4d",
+            barWidth: "0%",
+            author: "Максим",
+            text: "Управленческий градусник застрял на отметке 40°C, а команда дергает по каждому чиху. В лонгридах пишут: «делегируй и доверяй». На практике с новичками этот подход не работает: возникают ошибки, и работа встает. Расскажу первый лайфхак под названием «Индекс тишины»: выберите действие для снижения контроля при сохранении безопасности.",
+            options: [
+                { 
+                    text: "Руководитель запретил команде писать в личку чаще двух раз в день и установил жесткие часы приема вопросов.", 
+                    isCorrect: false, 
+                    feedback: "Это жесткое решение. Новички испугаются, затаятся, а к вечеру принесут гору нерешенных проблем и сорвут дедлайн. Температура контроля взлетит до 41°C: выберите другой вариант." 
+                },
+                { 
+                    text: "Руководитель назначил ежедневные утренние созвоны для отчетов по задачам на день.", 
+                    isCorrect: false, 
+                    feedback: "Это классический микроменеджмент в обертке зум-созвона. Час времени уходит на выслушивание чужих планов, а затем руководитель все равно перепроверяет задачи. Лайфхак тоньше: измените структуру самого запроса." 
+                },
+                { 
+                    text: "Руководитель запретил сотрудникам приносить проблемы без готового варианта решения.", 
+                    isCorrect: true, 
+                    feedback: "Соль лайфхака — руководитель запретил приносить «голые» проблемы. Теперь на одну проблему сотрудник предлагает два варианта решения и делает выбор. Даже если новичок предлагает глупость, мозг переключается из режима потребителя в режим аналитика. Индекс тишины в личке вырастает на 60%, а сотрудники думают самостоятельно. Контроль плавно опускается." 
+                }
+            ]
+        },
+        {
+            status: "Скрытая поддержка: 38°C",
+            color: "#ffa500",
+            barWidth: "35%",
+            author: "Максим",
+            text: "При росте команды до 38°C у руководителя появляется ложная иллюзия контроля. Контроль становится скрытым, ведь лидер боится отпустить вожжи. Для проверки автономии применяется «Тест на радиомолчание»: определите алгоритм этого метода.",
+            options: [
+                { 
+                    text: "Руководитель перестает сам писать в чат и ждет, пока сотрудники первые проявят инициативу.", 
+                    isCorrect: false, 
+                    feedback: "В чате сотрудники имитируют работу годами. Процессам требуется прямой стресс-тест: выберите другой вариант." 
+                },
+                { 
+                    text: "Руководитель устраивает внезапную жесткую проверку отчетов за прошлый месяц без предупреждения.", 
+                    isCorrect: false, 
+                    feedback: "Это не тест на автономию, это обыск. Команда поймет, что руководитель не верит. Атмосфера накалится, люди спрячут косяки. Это шаг назад: выберите другой вариант." 
+                },
+                { 
+                    text: "Руководитель не предупреждает о форс-мажорах и уходит в полный офлайн на 2-3 дня среди рабочей недели.", 
+                    isCorrect: true, 
+                    feedback: "В точку. Руководитель называет это управленческим эксперментом. Двухдневный отъезд на стратегическую сессию или мини-отпуск сопровождается выключением уведомлений. За 48 часов без контроля проект не встал, клиенты не ушли, а команда сама разрулила текущие сбои — показатели в норме." 
+                }
+            ]
+        },
+        {
+            status: "Здоровая норма: 37°C",
+            color: "#e6c300",
+            barWidth: "55%",
+            author: "Максим",
+            text: "Финальный этап. Для выхода на чистые 36,6°C руководитель передает команде право принимать решения без согласования. Главный страх лидера — убытки из-за чужих ошибок. Для преодоления этого барьера применяется «Управленческое завещание»: определите цель инструмента.",
+            options: [
+                { 
+                    text: "Регламент фиксирует формальные обязанности и штрафы для жесткого контроля действий сотрудников.", 
+                    isCorrect: false, 
+                    feedback: "Должностные инструкции вызывают скуку и провоцируют бюрократию при сбоях. Бумажные правила не учат самостоятельности: найдите гибкий управленческий инструмент." 
+                },
+                { 
+                    text: "Документ закрепляет финансовые границы и риски для самостоятельного принятия решений командой.", 
+                    isCorrect: true, 
+                    feedback: "Верно, матрица рисков и цена ошибки — основа этого инструмента. При стоимости ошибки до 100 000 рублей команда принимает решения самостоятельно. Руководитель подключается только при стратегических рисках или угрозе репутации. Четкие границы автономности мотивируют сотрудников и освобождают личное время для формирования стратегии." 
+                }
+            ]
+        },
+        {
+            status: "36,6°C — Здоровая автономия достигнута!",
+            color: "#2ecc71",
+            barWidth: "75%",
+            author: "Максим",
+            text: "Поздравляю. Кулуарные лайфхаки работают. Лихорадка контроля ушла, микроменеджмент остыл, а команда вышла на уровень безопасной автономии. Теперь свободное время принадлежит стратегии.",
+            options: []
+        }
+    ];
+        var currentStageIndex = 0;
+
+    // Безопасное перемешивание вариантов ответов для старых браузеров
+    function shuffleArray(array) {
+        var copy = array.slice();
+        var currentIndex = copy.length, temporaryValue, randomIndex;
+        while (0 !== currentIndex) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+            temporaryValue = copy[currentIndex];
+            copy[currentIndex] = copy[randomIndex];
+            copy[randomIndex] = temporaryValue;
+        }
+        return copy;
+    }
+
+    function renderStage() {
+        var stage = stages[currentStageIndex];
+        
+        var bar = document.getElementById("bar");
+        bar.style.width = stage.barWidth;
+        
+        var statusText = document.getElementById("status");
+        statusText.innerText = stage.status;
+        statusText.style.color = stage.color;
+        
+        document.getElementById("author").innerText = stage.author;
+        
+        // Поиск ПОСЛЕДНЕГО двоеточия в строке (справа налево), чтобы выделить только призыв
+        var rawText = stage.text;
+        var lastColonIndex = rawText.lastIndexOf(":");
+        
+        if (lastColonIndex !== -1) {
+            // Берем историю до финального двоеточия включительно
+            var baseText = rawText.substring(0, lastColonIndex + 1);
+            // Берем только призыв к действию после него и оборачиваем в тег жирности <b>
+            var actionText = "<b>" + rawText.substring(lastColonIndex + 1) + "</b>";
+            
+            document.getElementById("dialog-text").innerHTML = baseText + actionText;
+        } else {
+            document.getElementById("dialog-text").innerHTML = rawText;
+        }
+        
+        var optionsContainer = document.getElementById("options");
+        optionsContainer.innerHTML = "";
+        
+        var feedbackBox = document.getElementById("feedback-box");
+        feedbackBox.style.display = "none";
+        
+        var nextBtn = document.getElementById("next-button");
+        nextBtn.style.display = "none";
+
+        if (stage.options.length === 0) {
+            nextBtn.innerText = "Пройти заново";
+            nextBtn.style.display = "block";
+            nextBtn.onclick = resetGame;
+            return;
+        } else {
+            nextBtn.innerText = "Идем дальше";
+            nextBtn.onclick = nextStage;
+        }
+
+        var shuffledOptions = shuffleArray(stage.options);
+
+        for (var index = 0; index < shuffledOptions.length; index++) {
+            (function(idx) {
+                var option = shuffledOptions[idx];
+                var button = document.createElement("button");
+                button.className = "option-btn";
+                button.innerText = option.text;
+                button.onclick = function() { checkAnswer(option); };
+                optionsContainer.appendChild(button);
+            })(index);
+        }
+    }
+
+    function checkAnswer(option) {
+        var feedbackBox = document.getElementById("feedback-box");
+        feedbackBox.style.display = "block";
+        
+        if (option.isCorrect) {
+            feedbackBox.className = "feedback success";
+            feedbackBox.innerText = option.feedback;
+            document.getElementById("next-button").style.display = "block";
+            
+            var buttons = document.getElementsByClassName("option-btn");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+            }
+        } else {
+            feedbackBox.className = "feedback error";
+            feedbackBox.innerText = option.feedback;
+        }
+    }
+
+    function nextStage() {
+        currentStageIndex++;
+        if (currentStageIndex < stages.length) {
+            renderStage();
+        }
+    }
+
+    function resetGame() {
+        currentStageIndex = 0;
+        renderStage();
+    }
+
+    renderStage();
+</script>
+
+</body>
+</html>
